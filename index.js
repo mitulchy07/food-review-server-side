@@ -9,6 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.mhsbjhf.mongodb.net/?retryWrites=true&w=majority`;
+
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -17,13 +18,9 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    const serviceCollection = client
-      .db('geniusCarCollection')
-      .collection('services');
+    const serviceCollection = client.db('assignment11').collection('services');
 
-    const orderCollection = client
-      .db('geniusCarCollection')
-      .collection('orders');
+    const orderCollection = client.db('assignment11').collection('reviews');
 
     app.get('/services', async (req, res) => {
       const query = {};
