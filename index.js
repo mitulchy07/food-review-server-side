@@ -95,7 +95,7 @@ async function run() {
       res.send(result);
     });
 
-    app.patch('/orders/:id', async (req, res) => {
+    app.patch('/myreviews/:id', async (req, res) => {
       const id = req.params.id;
 
       const status = req.body.status;
@@ -109,7 +109,7 @@ async function run() {
       res.send(result);
     });
 
-    app.delete('/orders/:id', async (req, res) => {
+    app.delete('/myreviews/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const result = await orderCollection.deleteOne(query);
