@@ -55,9 +55,14 @@ async function run() {
       res.send(orders);
     });
 
-    app.post('/orders', async (req, res) => {
-      const order = req.body;
-      const result = await orderCollection.insertOne(order);
+    app.post('/additem', async (req, res) => {
+      const item = req.body;
+      const result = await serviceCollection.insertOne(item);
+      res.send(result);
+    });
+    app.post('/addreview', async (req, res) => {
+      const review = req.body;
+      const result = await orderCollection.insertOne(review);
       res.send(result);
     });
 
