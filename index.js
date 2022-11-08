@@ -60,20 +60,28 @@ async function run() {
       const cursor = orderCollection.find(query);
       const myReviews = await cursor.toArray();
       res.send(myReviews);
-      console.log(name);
     });
 
     //orders api
     app.get('/myreviews', async (req, res) => {
+      const query = {};
+      const cursor = orderCollection.find(query);
+      const myReviews = await cursor.toArray();
+      res.send(myReviews);
+    });
+
+    app.get('/myreviews/:email', async (req, res) => {
+      const email = req.params.email;
       let query = {};
-      if (req.query.email) {
+      if (email) {
         query = {
-          email: req.query.email,
+          email: email,
         };
       }
       const cursor = orderCollection.find(query);
       const myReviews = await cursor.toArray();
       res.send(myReviews);
+      console.log(email);
     });
 
     app.post('/additem', async (req, res) => {
