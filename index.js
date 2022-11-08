@@ -42,8 +42,29 @@ async function run() {
       res.send(food);
     });
 
+    app.get('/allreviews', async (req, res) => {
+      const query = {};
+      const cursor = orderCollection.find(query);
+      const allReviews = await cursor.toArray();
+      res.send(allReviews);
+    });
+
+    app.get('/allreviews/:name', async (req, res) => {
+      const name = req.params.name;
+      let query = {};
+      if (name) {
+        query = {
+          name: name,
+        };
+      }
+      const cursor = orderCollection.find(query);
+      const myReviews = await cursor.toArray();
+      res.send(myReviews);
+      console.log(name);
+    });
+
     //orders api
-    app.get('/orders', async (req, res) => {
+    app.get('/myreviews', async (req, res) => {
       let query = {};
       if (req.query.email) {
         query = {
@@ -51,8 +72,8 @@ async function run() {
         };
       }
       const cursor = orderCollection.find(query);
-      const orders = await cursor.toArray();
-      res.send(orders);
+      const myReviews = await cursor.toArray();
+      res.send(myReviews);
     });
 
     app.post('/additem', async (req, res) => {
