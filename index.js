@@ -18,24 +18,28 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    const serviceCollection = client.db('assignment11').collection('services');
+    const serviceCollection = client.db('assignment11').collection('subjects');
 
     const orderCollection = client.db('assignment11').collection('reviews');
 
-    app.get('/services', async (req, res) => {
+    app.get('/foods', async (req, res) => {
       const query = {};
       const cursor = serviceCollection.find(query);
-      const services = await cursor.toArray();
-      res.send(services);
+      const foods = await cursor.limit(3).toArray();
+      res.send(foods);
+    });
+    app.get('/allfoods', async (req, res) => {
+      const query = {};
+      const cursor = serviceCollection.find(query);
+      const foods = await cursor.toArray();
+      res.send(foods);
     });
 
-    app.get('/services/:id', async (req, res) => {
+    app.get('/allfoods/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
-      const service = await serviceCollection.findOne(query);
-      res.send(service);
-      console.log(query);
-      console.log(service);
+      const food = await serviceCollection.findOne(query);
+      res.send(food);
     });
 
     //orders api
