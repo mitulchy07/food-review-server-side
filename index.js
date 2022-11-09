@@ -70,6 +70,25 @@ async function run() {
       const food = await orderCollection.findOne(query);
       res.send(food);
     });
+    app.put('/allreviews/:id', async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: ObjectId(id) };
+      const option = { upsert: true };
+      const review = req.body;
+      const updatedReview = {
+        $set: {
+          subject: review.subject,
+          details: review.details,
+          ratings: review.ratings,
+        },
+      };
+      const result = await orderCollection.updateOne(
+        filter,
+        updatedReview,
+        option
+      );
+      res.send(result);
+    });
 
     app.get('/allreviews/:name', async (req, res) => {
       const name = req.params.name;
