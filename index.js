@@ -17,20 +17,20 @@ const client = new MongoClient(uri, {
   serverApi: ServerApiVersion.v1,
 });
 
-// function verifyJWT(req, res, next) {
-//   const authHeader = req.headers.authorization;
-//   if (!authHeader) {
-//     return res.status(401).send({ message: 'Unauthorized Access' });
-//   }
-//   const token = authHeader.split(' ')[1];
-//   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, function (err, decoded) {
-//     if (err) {
-//       return res.status(401).send({ message: 'Unauthorized Access' });
-//     }
-//     req.decoded = decoded;
-//     next();
-//   });
-// }
+function verifyJWT(req, res, next) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return res.status(401).send({ message: 'Unauthorized Access' });
+  }
+  const token = authHeader.split(' ')[1];
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, function (err, decoded) {
+    if (err) {
+      return res.status(401).send({ message: 'Unauthorized Access' });
+    }
+    req.decoded = decoded;
+    next();
+  });
+}
 
 async function run() {
   try {
@@ -110,8 +110,8 @@ async function run() {
       const myReviews = await cursor.toArray();
       res.send(myReviews);
     });
-    // verifyJWT,
-    app.get('/myreviews/:email', async (req, res) => {
+    //jwt added
+    app.get('/myreviews/:email', verifyJWT, async (req, res) => {
       const email = req.params.email;
       let query = {};
       if (email) {
