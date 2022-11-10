@@ -89,19 +89,35 @@ async function run() {
       );
       res.send(result);
     });
-
-    app.get('/allreviews/:name', async (req, res) => {
-      const name = req.params.name;
-      let query = {};
-      if (name) {
-        query = {
-          name: name,
-        };
-      }
+    app.get('/common/:category', async (req, res) => {
+      const category = req.params.category;
+      let query = { category };
       const cursor = orderCollection.find(query);
-      const myReviews = await cursor.toArray();
-      res.send(myReviews);
+      const allReviews = await cursor.toArray();
+      res.send(allReviews);
+      console.log(category);
     });
+    // app.get('/common/:category', async (req, res) => {
+    //   const category = req.params.category;
+    //   let query = { category: category };
+    //   const cursor = orderCollection.find(query);
+    //   const allReviews = await cursor.toArray();
+    //   res.send(allReviews);
+    //   console.log(category);
+    // });
+
+    // app.get('/allreviews/:name', async (req, res) => {
+    //   const name = req.params.name;
+    //   let query = {};
+    //   if (name) {
+    //     query = {
+    //       name: name,
+    //     };
+    //   }
+    //   const cursor = orderCollection.find(query);
+    //   const myReviews = await cursor.toArray();
+    //   res.send(myReviews);
+    // });
 
     //orders api
     app.get('/myreviews', async (req, res) => {
@@ -114,6 +130,7 @@ async function run() {
     app.get('/myreviews/:email', verifyJWT, async (req, res) => {
       const email = req.params.email;
       let query = {};
+
       if (email) {
         query = {
           email: email,
@@ -144,19 +161,19 @@ async function run() {
       res.send(result);
     });
 
-    // app.get('/myreviews/:id', async (req, res) => {
-    //   const id = req.params.id;
-    //   const query = { _id: ObjectId(id) };
-    //   const food = await orderCollection.findOne(query);
-    //   res.send(food);
-    // });
+    app.get('/myreviews/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const food = await orderCollection.findOne(query);
+      res.send(food);
+    });
 
-    // app.patch('/myreviews/:id', async (req, res) => {
-    //   const id = req.params.id;
-    //   const query = { _id: ObjectId(id) };
-    //   const result = await orderCollection.updateOne(query, updatedDoc);
-    //   res.send(result);
-    // });
+    app.patch('/myreviews/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await orderCollection.updateOne(query, updatedDoc);
+      res.send(result);
+    });
 
     app.delete('/myreviews/:id', async (req, res) => {
       const id = req.params.id;
